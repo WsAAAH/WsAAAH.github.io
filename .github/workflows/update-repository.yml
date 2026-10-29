@@ -41,7 +41,8 @@ jobs:
         env:
           REPOSITORY_NAME: ${{ github.event.repository.name }}
           REPOSITORY_OWNER: ${{ github.repository_owner }}
-          SOURCE_URL: ${{ steps.pages.outputs.base_url }}
+          SOURCE_NAME: WsAAAH
+          SOURCE_URL: https://wsaaah.github.io/
         run: ./scripts/update-repository.sh
 
       - name: Upload GitHub Pages artifact

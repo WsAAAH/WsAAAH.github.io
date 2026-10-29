@@ -1,55 +1,173 @@
 <!doctype html>
-<html lang="en">
+<html lang="zh-CN">
 <head>
 <meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<title>WsAAAH/WsAAAH.github.io</title>
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#080b10">
+<title>WsAAAH 越狱源</title>
 <style>
-:root { color-scheme: light; --ink: #1f232b; --page: #f2f2f7; }
+:root {
+  color-scheme: dark;
+  --page: #080b10;
+  --panel: rgba(20, 25, 34, 0.92);
+  --panel-border: rgba(255, 255, 255, 0.09);
+  --text: #f5f7fa;
+  --muted: #9da8b8;
+  --green: #42e58d;
+  --green-strong: #21c875;
+  --shadow: rgba(0, 0, 0, 0.42);
+}
 * { box-sizing: border-box; }
-html, body { height: 100%; }
+html, body { min-height: 100%; }
 body {
-  margin: 0; padding: 24px; background: var(--page); color: var(--ink);
-  display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 16px;
-  font: 17px/22px ui-rounded, "SF Pro Rounded", -apple-system, BlinkMacSystemFont, system-ui, sans-serif;
+  margin: 0;
+  padding: max(28px, env(safe-area-inset-top)) 20px max(28px, env(safe-area-inset-bottom));
+  background:
+    radial-gradient(circle at 50% 10%, rgba(66, 229, 141, 0.14), transparent 34rem),
+    var(--page);
+  color: var(--text);
+  display: grid;
+  place-items: center;
+  font: 16px/1.5 -apple-system, BlinkMacSystemFont, "SF Pro Text", "PingFang SC", "Microsoft YaHei", sans-serif;
 }
+main { width: min(460px, 100%); }
 .card {
-  position: relative; width: min(400px, 100%); padding: 65px 32px 36px;
-  background: #fff; border-radius: 24px; text-align: center;
+  padding: 34px 26px 28px;
+  overflow: hidden;
+  background: var(--panel);
+  border: 1px solid var(--panel-border);
+  border-radius: 28px;
+  box-shadow: 0 24px 70px var(--shadow);
+  text-align: center;
+  backdrop-filter: blur(24px);
+  -webkit-backdrop-filter: blur(24px);
 }
-.card::before {
-  content: ""; position: absolute; top: 20px; left: 50%; width: 60px; height: 11px;
-  margin-left: -30px; border-radius: 5.5px; background: var(--page);
+.icon {
+  display: block;
+  width: 92px;
+  height: 92px;
+  margin: 0 auto 20px;
+  border-radius: 22px;
+  object-fit: cover;
+  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.32);
 }
-.card img.icon { display: block; width: 64px; height: 64px; margin: 0 auto 16px; border-radius: 15px; }
-.card p { margin: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
-.card .title { font-weight: 700; margin-bottom: 3px; }
-.card .dim { opacity: 0.5; }
-.card img.qr { display: block; width: 248px; max-width: 100%; margin: 18px auto 30px; }
-a.open { color: #007aff; text-decoration: underline; }
+h1 { margin: 0; font-size: 30px; line-height: 1.2; letter-spacing: -0.02em; }
+.subtitle { margin: 9px 0 26px; color: var(--muted); }
+.source-label {
+  margin: 0 0 8px;
+  color: var(--muted);
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-align: left;
+}
+.source-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  min-width: 0;
+  padding: 10px 10px 10px 15px;
+  background: rgba(255, 255, 255, 0.055);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 15px;
+}
+.source-address {
+  min-width: 0;
+  flex: 1;
+  overflow: hidden;
+  color: var(--text);
+  font: 14px/1.35 ui-monospace, "SFMono-Regular", Menlo, Consolas, monospace;
+  text-align: left;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  user-select: all;
+  -webkit-user-select: all;
+}
+button, .add-button {
+  border: 0;
+  border-radius: 11px;
+  font: inherit;
+  font-weight: 700;
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+}
+.copy-button {
+  flex: none;
+  padding: 8px 12px;
+  background: rgba(66, 229, 141, 0.14);
+  color: var(--green);
+}
+.copy-button:active { background: rgba(66, 229, 141, 0.24); }
+.add-button {
+  display: block;
+  margin-top: 16px;
+  padding: 13px 18px;
+  background: linear-gradient(135deg, var(--green), var(--green-strong));
+  color: #04130b;
+  text-decoration: none;
+  box-shadow: 0 10px 24px rgba(33, 200, 117, 0.2);
+}
+.note { margin: 22px 4px 0; color: var(--muted); font-size: 13px; }
+.copy-status { min-height: 20px; margin: 10px 0 -2px; color: var(--green); font-size: 13px; }
+@media (max-width: 360px) {
+  .card { padding-inline: 18px; }
+  .source-row { align-items: stretch; flex-direction: column; padding: 12px; }
+  .source-address { width: 100%; text-align: center; }
+}
+@media (prefers-reduced-motion: no-preference) {
+  .card { animation: appear 480ms ease-out both; }
+  @keyframes appear { from { opacity: 0; transform: translateY(10px); } }
+}
 </style>
 </head>
 <body>
-<main class="card">
-<img class="icon" src="CydiaIcon.png" alt="">
-<p class="title" id="title"></p>
-<p class="dim" id="address"></p>
-<img class="qr" id="qr" src="qr.svg" alt="">
-<p class="dim">Scan with Camera to add in Irisin</p>
-<p class="dim" id="owner"></p>
+<main>
+  <section class="card" aria-labelledby="source-title">
+    <img class="icon" src="CydiaIcon.png" alt="WsAAAH 源图标">
+    <h1 id="source-title">WsAAAH</h1>
+    <p class="subtitle">iOS 越狱软件源</p>
+
+    <p class="source-label">源地址</p>
+    <div class="source-row">
+      <code class="source-address" id="source-address">https://wsaaah.github.io/</code>
+      <button class="copy-button" id="copy-button" type="button">复制</button>
+    </div>
+    <p class="copy-status" id="copy-status" role="status" aria-live="polite"></p>
+
+    <a class="add-button" href="irisin://repository/add?url=https%3A%2F%2Fwsaaah.github.io%2F">添加到 Irisin</a>
+    <p class="note">复制源地址后，也可在你使用的软件包管理器中手动添加。</p>
+  </section>
 </main>
-<a class="open" id="open">Open in Irisin…</a>
 <script>
-const repository = "WsAAAH/WsAAAH.github.io";
-const source = new URL(".", location.href).href;
-const [owner, name] = repository.split("/");
-document.getElementById("title").textContent = name || repository;
-document.getElementById("address").textContent = source.replace(/^https?:[/][/]/, "").replace(/[/]+$/, "");
-document.getElementById("owner").textContent = "@" + owner;
-document.getElementById("open").href = "irisin://repository/add?url=" + encodeURIComponent(source);
-for (const image of document.querySelectorAll("img")) {
-  image.addEventListener("error", () => { image.style.display = "none"; });
+const sourceURL = "https://wsaaah.github.io/";
+const copyButton = document.getElementById("copy-button");
+const copyStatus = document.getElementById("copy-status");
+
+async function copySourceURL() {
+  try {
+    await navigator.clipboard.writeText(sourceURL);
+  } catch (error) {
+    const input = document.createElement("textarea");
+    input.value = sourceURL;
+    input.setAttribute("readonly", "");
+    input.style.position = "fixed";
+    input.style.opacity = "0";
+    document.body.appendChild(input);
+    input.select();
+    const copied = document.execCommand("copy");
+    input.remove();
+    if (!copied) throw error;
+  }
+
+  copyStatus.textContent = "源地址已复制";
+  copyButton.textContent = "已复制";
+  window.setTimeout(() => {
+    copyStatus.textContent = "";
+    copyButton.textContent = "复制";
+  }, 1800);
 }
+
+copyButton.addEventListener("click", copySourceURL);
 </script>
 </body>
 </html>

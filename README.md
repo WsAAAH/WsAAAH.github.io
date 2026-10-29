@@ -1,6 +1,6 @@
-# WsAAAH/WsAAAH.github.io
+# WsAAAH
 
-An APT source for jailbroken iOS, published with Apelin.
+The official APT source for jailbroken iOS, published with Apelin.
 
 Add `https://wsaaah.github.io/` in Irisin.
 

@@ -14,7 +14,8 @@ for command_name in apt-ftparchive xz; do
   fi
 done
 
-name="${REPOSITORY_NAME:-$(basename "$repository_root")}"
+repository_name="${REPOSITORY_NAME:-$(basename "$repository_root")}"
+name="${SOURCE_NAME:-$repository_name}"
 owner="${REPOSITORY_OWNER:-$name}"
 work_dir="$(mktemp -d "$repository_root/.repo-build.XXXXXX")"
 trap 'rm -rf -- "${work_dir:?}"' EXIT
